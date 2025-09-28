@@ -1,0 +1,83 @@
+#include <stdio.h>
+
+int main() {
+    int id, stock, opcion, cantidad;
+    char nombre[50];
+    float precio, ganancias = 0, total, descuento;
+
+    // Registro del producto
+    printf("=== Registro del producto ===\n");
+    printf("ID del producto: ");
+    scanf("%d", &id);
+    printf("Nombre del producto: ");
+    scanf("%s", nombre);
+    printf("Cantidad inicial en stock: ");
+    scanf("%d", &stock);
+    printf("Precio unitario: ");
+    scanf("%f", &precio);
+
+    do {
+        printf("\n=== MENU ===\n");
+        printf("1. Vender producto\n");
+        printf("2. Reabastecer stock\n");
+        printf("3. Consultar informacion\n");
+        printf("4. Mostrar ganancias\n");
+        printf("5. Salir\n");
+        printf("Selecciona una opcion: ");
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+            case 1:
+                printf("Cantidad a vender: ");
+                scanf("%d", &cantidad);
+                if (cantidad <= 0) {
+                    printf("Error: la cantidad debe ser positiva.\n");
+                } else if (cantidad > stock) {
+                    printf("Error: stock insuficiente.\n");
+                } else {
+                    printf("Descuento (0-100%%): ");
+                    scanf("%f", &descuento);
+                    if (descuento < 0 || descuento > 100) descuento = 0;
+                    total = cantidad * precio * (1 - descuento / 100);
+                    stock -= cantidad;
+                    ganancias += total;
+                    printf("Venta realizada. Total: %.2f\n", total);
+                    printf("Stock restante: %d\n", stock);
+                }
+                break;
+
+            case 2:
+                printf("Cantidad a agregar: ");
+                scanf("%d", &cantidad);
+                if (cantidad > 0) {
+                    stock += cantidad;
+                    printf("Stock actualizado: %d\n", stock);
+                } else {
+                    printf("Error: cantidad invalida.\n");
+                }
+                break;
+
+            case 3:
+                printf("\n--- Informacion del producto ---\n");
+                printf("ID: %d\n", id);
+                printf("Nombre: %s\n", nombre);
+                printf("Stock: %d\n", stock);
+                printf("Precio unitario: %.2f\n", precio);
+                break;
+
+            case 4:
+                printf("Ganancias acumuladas: %.2f\n", ganancias);
+                break;
+
+            case 5:
+                printf("Saliendo...\n");
+                break;
+
+            default:
+                printf("Opcion invalida.\n");
+        }
+
+    } while (opcion != 5);
+
+    return 0;
+}
